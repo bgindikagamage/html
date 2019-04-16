@@ -1,0 +1,36 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var \Magento\NegotiableQuote\Block\Quote\Info $block */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<div class="quote-date">
+    <div class="quote-date-created">
+        <b><?= $block->escapeHtml(__('Created:')) ?> </b>
+        <date>
+            <?= /* @noEscape */ $block->formatDate($block->getQuote()->getCreatedAt(), \IntlDateFormatter::LONG) ?>
+        </date>
+        (<?= /* @noEscape */ $block->getQuoteOwnerFullName() ?>)
+    </div>
+    <div class="quote-date-expired">
+        <b><?= $block->escapeHtml(__('Expires:')) ?> </b>
+        <?php if ($block->isQuoteExpirationDateDisplayed()): ?>
+            <date>
+                <?php /* @noEscape */
+                    echo $block->formatDate($block->getExpirationPeriodTime(), \IntlDateFormatter::LONG);
+                ?>
+            </date>
+        <?php else: ?>
+            <span><?= $block->escapeHtml(__('Never')) ?></span>
+        <?php endif; ?>
+    </div>
+</div>
+<div class="quote-sales-rep">
+    <b><?= $block->escapeHtml(__('Sales Rep.:')) ?> </b>
+    <?= $block->escapeHtml($block->getSalesRep()) ?>
+</div>

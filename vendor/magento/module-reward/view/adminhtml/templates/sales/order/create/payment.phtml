@@ -1,0 +1,43 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * @see \Magento\Reward\Block\Adminhtml\Sales\Order\Create\Payment
+ */
+?>
+<?php if ($block->canUseRewardPoints()): ?>
+    <div class="admin__field admin__field-option">
+        <input id="p_method_use_reward_points"
+               class="admin__control-checkbox"
+               value="1"
+               name="payment[use_reward_points]"
+               type="checkbox"
+               <?php if ($block->useRewardPoints()): ?>checked="checked"<?php endif; ?> />
+        <label class="admin__field-label" for="p_method_use_reward_points">
+            <?= /* @escapeNotVerified */ $block->getUseLabel() ?>
+        </label>
+        <script>
+require(['prototype'], function(){
+
+            toggleUseRewardPoints = function()
+            {
+                value = ($('p_method_use_reward_points').checked ? 1 : 0);
+                var data = {};
+                data['payment[use_reward_points]'] = value;
+
+                order.loadArea(['totals', 'billing_method'], true, data);
+            }
+            Event.observe($('p_method_use_reward_points'), 'change', toggleUseRewardPoints);
+            Event.observe(document, 'dom:loaded', toggleUseRewardPoints);
+
+});
+</script>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customersegment.detail.grid.columnSet.group">
+            <action method="setRendererType">
+                <argument name="type" xsi:type="string">options</argument>
+                <argument name="className" xsi:type="string">Magento\SharedCatalog\Block\Widget\Grid\Column\Renderer\CustomerGroup</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

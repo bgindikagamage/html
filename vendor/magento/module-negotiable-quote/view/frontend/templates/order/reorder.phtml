@@ -1,0 +1,32 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+?>
+
+<div id="reorder-quote-popup" data-mage-init='{"Magento_NegotiableQuote/js/model/create-quote-popup": {}}'
+     data-role="reorder-quote-popup" class="modal-container reorder-quote-popup">
+        <fieldset class="fieldset info">
+            <div class="field quote-reorder-message">
+                <p class="text-main"></p>
+                <p class="text-secondary"></p>
+            </div>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action merge primary" data-action="merge-quote"
+                        title="<?= $block->escapeHtml(__('Merge')) ?>"><span><?= /* @noEscape */
+                        __('Merge') ?></span></button>
+                <button class="action replace" data-action="replace-quote"
+                        title="<?= $block->escapeHtml(__('Replace')) ?>"><span><?= /* @noEscape */
+                        __('Replace') ?></span></button>
+            </div>
+            <div class="secondary">
+                <button class="action cancel secondary" data-action="close-modal"
+                        title="<?= $block->escapeHtml(__('Cancel')) ?>"><span><?= /* @noEscape */
+                        __('Cancel') ?></span></button>
+            </div>
+        </div>
+</div>

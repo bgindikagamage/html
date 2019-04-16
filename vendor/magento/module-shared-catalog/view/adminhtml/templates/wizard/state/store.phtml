@@ -1,0 +1,16 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\SharedCatalog\Block\Adminhtml\SharedCatalog\Wizard\Store\Switcher */
+?>
+<?php if ($block->isOptionSelected()): ?>
+    <div class="shared-catalog-config-store-switcher">
+        <span class="store-switcher-label"><?= /* @noEscape */ __('Store:') ?></span>
+        <span><?= /* @noEscape */ $block->getSelectedOptionLabel() ?></span>
+    </div>
+<?php endif; ?>

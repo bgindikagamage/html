@@ -1,0 +1,23 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php if ($block->canUseCustomerBalance()): ?>
+    <div class="admin__field admin__field-option">
+        <input id="p_method_use_customerbalance"
+               value="1"
+               class="admin__control-checkbox"
+               name="payment[use_customer_balance]"
+               type="checkbox"
+               title="<?= /* @escapeNotVerified */ __('Store Credit') ?>"
+               onclick=""
+               <?php if ($block->getUseCustomerBalance()): ?>checked<?php endif; ?> />
+        <label class="admin__field-label" for="p_method_use_customerbalance">
+            <?= /* @escapeNotVerified */ __('Use Store Credit (%1 available)', $block->formatPrice($block->getBalance(true))) ?></label>
+    </div>
+<?php endif; ?>

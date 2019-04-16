@@ -1,0 +1,49 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php if ($block->canRefundToCustomerBalance()): ?>
+    <div class="admin__field admin__field-option field-refund-store-credit">
+        <input type="hidden" name="creditmemo[refund_customerbalance_return_enable]" value="0">
+        <input type="checkbox"
+               class="admin__control-checkbox"
+               name="creditmemo[refund_customerbalance_return_enable]"
+               value="1" id="creditmemo_customerbalance_return_enable"
+               <?php if ($this->helper('Magento\CustomerBalance\Helper\Data')->isAutoRefundEnabled()): ?>
+                   checked="checked"
+               <?php endif ?> />
+        <label for="creditmemo_customerbalance_return_enable" class="admin__field-label">
+            <span><?= /* @escapeNotVerified */ __('Refund to Store Credit') ?></span>
+        </label>
+        <input type="text"
+               name="creditmemo[refund_customerbalance_return]"
+               value="<?= /* @escapeNotVerified */ $block->getReturnValue() ?>"
+               id="creditmemo_customerbalance_return"
+               class="input-text admin__control-text not-negative-amount" />
+        <script>
+        require(['jquery'], function($) {
+            $(function ($) {
+                var toggleCustomerBalanceRefundAmount = function (e) {
+                    var refundReturn = $('#creditmemo_customerbalance_return');
+                    if ($(e.target).prop('checked')) {
+                        refundReturn.prop('disabled', false);
+                        disableElements('refund');
+                    } else {
+                        refundReturn.prop('disabled', true);
+                        enableElements('refund');
+                    }
+                };
+                var refundCustomerBalanceEnable = $('#creditmemo_customerbalance_return_enable');
+                refundCustomerBalanceEnable.change(toggleCustomerBalanceRefundAmount);
+                toggleCustomerBalanceRefundAmount({target:refundCustomerBalanceEnable});
+            });
+        });
+        </script>
+    </div>
+<?php endif; ?>

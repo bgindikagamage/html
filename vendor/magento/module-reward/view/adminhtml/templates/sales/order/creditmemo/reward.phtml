@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php if ($block->canRefundRewardPoints()): ?>
+    <div class="admin__field admin__field-option field-refund-reward-points">
+        <input type="checkbox" class="admin__control-checkbox" name="creditmemo[refund_reward_points_enable]" value="1" <?php if ($block->isAutoRefundEnabled()): ?>checked="checked"<?php endif; ?> id="creditmemo_refund_reward_points_enable">
+        <label for="creditmemo_refund_reward_points_enable" class="admin__field-label"><span><?= /* @escapeNotVerified */ __('Refund Reward Points') ?></span></label>
+        <input type="text" class="input-text admin__control-text not-negative-amount" name="creditmemo[refund_reward_points]" value="<?= /* @escapeNotVerified */ $block->getRefundRewardPointsBalance() ?>" id="creditmemo_refund_reward_points">
+        <script>
+require(['prototype'], function(){
+
+        //<![CDATA[
+            toggleRewardPointsRefundAmount = function() {
+                if ($('creditmemo_refund_reward_points_enable').checked) {
+                    $('creditmemo_refund_reward_points').disabled = false;
+                } else {
+                    $('creditmemo_refund_reward_points').disabled = true;
+                }
+            }
+            Event.observe($('creditmemo_refund_reward_points_enable'), 'change', toggleRewardPointsRefundAmount);
+            toggleRewardPointsRefundAmount();
+        //]]>
+
+});
+</script>
+    </div>
+<?php endif; ?>

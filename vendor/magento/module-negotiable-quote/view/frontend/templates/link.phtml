@@ -1,0 +1,19 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\NegotiableQuote\Block\Link\Order */
+?>
+<!-- ko scope: 'negotiable_quote' -->
+<!-- ko if: config().is_enabled  && isSalesAllAllowed()-->
+<li class="link order-list">
+    <a href="<?= /* @noEscape */ $block->getHref() ?>">
+        <?= $block->escapeHtml($block->getLabel()) ?>
+    </a>
+</li>
+<!-- /ko -->
+<!-- /ko -->

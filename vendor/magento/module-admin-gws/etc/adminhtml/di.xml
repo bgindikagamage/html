@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\ResourceModel\Category">
+        <plugin name="admingws_category_resource_plugin" type="Magento\AdminGws\Model\Plugin\CategoryResource"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Action">
+        <plugin name="admingws_product_action_plugin" type="Magento\AdminGws\Model\Plugin\ProductAction"/>
+    </type>
+    <type name="Magento\Backend\Block\Widget\ContainerInterface">
+        <plugin name="admin_gws" type="Magento\AdminGws\Model\Block\Container\Plugin" />
+    </type>
+    <type name="Magento\Store\Model\StoreManagerInterface">
+        <plugin name="admin_gws_limit_get_websites" type="Magento\AdminGws\Model\Plugin\StoreManager" />
+    </type>
+    <type name="Magento\Store\Api\WebsiteRepositoryInterface">
+        <plugin name="admin_gws_website_repository_plugin" type="Magento\AdminGws\Model\Plugin\WebsiteRepository" />
+    </type>
+    <type name="Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\AddEventButton">
+        <plugin name="admin_gws_category_event_buttons_limitation_plugin" type="Magento\AdminGws\Model\Plugin\CategoryEventButton" />
+    </type>
+    <type name="Magento\User\Controller\Adminhtml\User\Role\SaveRole">
+        <plugin name="admin_gws_save_role" type="Magento\AdminGws\Model\Plugin\SaveRole" />
+    </type>
+</config>

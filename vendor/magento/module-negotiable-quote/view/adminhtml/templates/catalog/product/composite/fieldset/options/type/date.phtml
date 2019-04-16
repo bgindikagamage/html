@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /* @var $block \Magento\Catalog\Block\Product\View\Options\Type\Date */ ?>
+<?php $option = $block->getOption(); ?>
+<?php $optionId = $option->getId(); ?>
+<div data-mage-init='{"Magento_NegotiableQuote/quote/create/configure-date": {
+    "id" : "<?= /* @noEscape */ $optionId ?>",
+    "condition" : "<?= /* @noEscape */ $block->useCalendar() ?>",
+    "require" : "<?php /* @noEscape */ $option->getIsRequire() ?>",
+    "monthOptions" : "#options_<?= /* @noEscape */ $optionId ?>_month",
+    "yearOptions" : "#options_<?= /* @noEscape */ $optionId ?>_year"
+}}' class="admin__field field<?php if ($option->getIsRequire()) echo ' _required' ?>">
+  <label class="label admin__field-label">
+      <?= $block->escapeHtml($option->getTitle()) ?>
+      <?= /* @noEscape */ $block->getFormatedPrice() ?>
+  </label>
+  <div class="admin__field-control control">
+
+  <?php if ($option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_DATE_TIME
+      || $option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_DATE): ?>
+
+      <?= $block->getDateHtml() ?>
+
+  <?php endif; ?>
+
+  <?php if ($option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_DATE_TIME
+      || $option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_TIME): ?>
+      <span class="time-picker"><?= $block->getTimeHtml() ?></span>
+  <?php endif; ?>
+
+    <input type="hidden" name="validate_datetime_<?= /* @noEscape */ $optionId ?>"
+           class="validate-datetime-<?= /* @noEscape */ $optionId ?>" value="" />
+  </div>
+</div>

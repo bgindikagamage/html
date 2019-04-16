@@ -1,0 +1,14 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php if ($block->getStoreName()): ?>
+    <div class="store-name">
+        <strong><?= $block->escapeHtml(__('Store')) ?>: </strong>
+        <span><?= /* @noEscape */ $block->getStoreName() ?></span>
+    </div>
+<?php endif ?>

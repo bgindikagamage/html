@@ -1,0 +1,13 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php if ($block->getStorePhone()): ?>
+    <span class="phone">
+            <?= $block->escapeHtml(__('Contact Us')) ?> <?= /* @noEscape */ $block->getStorePhone() ?>
+    </span>
+<?php endif ?>

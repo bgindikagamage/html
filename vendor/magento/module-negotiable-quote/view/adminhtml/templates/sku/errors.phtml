@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /* @var $block \Magento\NegotiableQuote\Block\Adminhtml\Sales\Order\Create\Sku\Errors */ ?>
+<div data-mage-init='{"Magento_NegotiableQuote/quote/create/init-errors": {
+    "listType" : "<?= $block->escapeHtml($block->getListType()) ?>",
+    "url" : "<?= $block->escapeHtml($block->getConfigureUrl()) ?>"}
+}' class="fieldset-wrapper admin__fieldset-wrapper">
+    <div class="fieldset-wrapper-title admin__fieldset-wrapper-title">
+        <div class="message message-notice">
+            <span>
+                <span id="sku-attention-num"><?php /* @noEscape */
+                    echo $block->getNumberOfFailed() ?></span> product(s) require attention.</span>
+        </div>
+        <strong class="title"><?php /* @noEscape */
+            echo __('Products Not Added to the Quote') ?></strong>
+        <div class="actions">
+            <?php /* @noEscape */
+            echo $block->getButtonHtml(
+                __('Add Products to Quote'),
+                'addBySku.submitConfigured()',
+                'action-add'
+            );
+            ?>
+            <button title="<?php /* @noEscape */
+            echo __('Remove All') ?>" type="button" class="action-default action-delete"
+                    onclick="addBySku.removeAllFailed()">
+                <span><?= /* @noEscape */ __('Remove All') ?></span>
+            </button>
+        </div>
+    </div>
+    <?= /* @noEscape */ $block->getChildHtml() ?>
+</div>

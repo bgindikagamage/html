@@ -1,0 +1,63 @@
+{
+    "name": "magento/magento2-b2b-base",
+    "description": "Magento 2 Base (Enterprise Edition B2B)",
+    "type": "magento2-component",
+    "version": "1.0.1",
+    "require": {
+        "magento/magento-composer-installer": "*",
+        "php": "7.0.2|7.0.4|~7.0.6|~7.1.0"
+    },
+    "license": [
+        "proprietary"
+    ],
+    "extra": {
+        "map": [
+            [
+                "LICENSE_B2B.txt",
+                "LICENSE_B2B.txt"
+            ],
+            [
+                "dev/tests/api-functional/testsuite/Magento",
+                "dev/tests/api-functional/testsuite/Magento"
+            ],
+            [
+                "dev/tests/functional/tests",
+                "dev/tests/functional/tests"
+            ],
+            [
+                "dev/tests/functional/testsuites/Magento",
+                "dev/tests/functional/testsuites/Magento"
+            ],
+            [
+                "dev/tests/integration/testsuite/Magento",
+                "dev/tests/integration/testsuite/Magento"
+            ],
+            [
+                "dev/tests/js/jasmine",
+                "dev/tests/js/jasmine"
+            ],
+            [
+                "dev/tests/static/testsuite/Magento",
+                "dev/tests/static/testsuite/Magento"
+            ],
+            [
+                "pub/media/negotiable_quotes_attachment",
+                "pub/media/negotiable_quotes_attachment"
+            ],
+            [
+                "setup",
+                "setup"
+            ],
+            [
+                "vendor/.htaccess",
+                "vendor/.htaccess"
+            ]
+        ],
+        "chmod": [
+            {
+                "mask": "0755",
+                "path": "bin/magento"
+            }
+        ]
+    }
+}

@@ -1,0 +1,149 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+namespace Magento\Staging\Model\ResourceModel;
+
+use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\EntityManager\MetadataPool;
+use Magento\Framework\Model\ResourceModel\Db\Context;
+use Magento\Framework\Model\ResourceModel\Db\VersionControl\AbstractDb;
+use Magento\Framework\Model\ResourceModel\Db\VersionControl\RelationComposite;
+use Magento\Framework\Model\ResourceModel\Db\VersionControl\Snapshot;
+use Magento\Staging\Model\StagingList;
+
+/**
+ * Staging update resource
+ */
+class Update extends AbstractDb
+{
+    /**
+     * Use is object new method for save of object
+     *
+     * @var bool
+     */
+    protected $_useIsObjectNew = true;
+
+    /**
+     * Primary key auto increment flag
+     *
+     * @var bool
+     */
+    protected $_isPkAutoIncrement = false;
+
+    /**
+     * Event prefix
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'staging_update_resource';
+
+    /**
+     * @var array
+     */
+    private $versionCache;
+
+    /**
+     * @var StagingList
+     */
+    private $stagingList;
+
+    /**
+     * @var MetadataPool
+     */
+    private $metadataPool;
+
+    /**
+     * @var ResourceConnection
+     */
+    private $resourceConnection;
+
+    /**
+     * @param Context $context
+     * @param Snapshot $entitySnapshot
+     * @param RelationComposite $entityRelationComposite
+     * @param string|null $connectionName
+     * @param StagingList|null $stagingList
+     * @param MetadataPool|null $metadataPool
+     */
+    public function __construct(
+        Context $context,
+        Snapshot $entitySnapshot,
+        RelationComposite $entityRelationComposite,
+        $connectionName = null,
+        StagingList $stagingList = null,
+        MetadataPool $metadataPool = null
+    ) {
+        $this->stagingList = $stagingList ?:
+            \Magento\Framework\App\ObjectManager::getInstance()->get(StagingList::class);
+        $this->metadataPool = $metadataPool ?:
+            \Magento\Framework\App\ObjectManager::getInstance()->get(MetadataPool::class);
+        $this->resourceConnection = $context->getResources();
+        parent::__construct($context, $entitySnapshot, $entityRelationComposite, $connectionName);
+    }
+
+    /**
+     * Model initialization
+     *
+     * @return void
+     */
+    protected function _construct()
+    {
+        $this->_init('staging_update', 'id');
+    }
+
+    /**
+     * Retrieve max version id for requested datetime
+     *
+     * @param int $timestamp
+     * @return string
+     */
+    public function getMaxIdByTime($timestamp)
+    {
+        if (!isset($this->versionCache[$timestamp])) {
+            $date = new \DateTime();
+            $date->setTimestamp($timestamp);
+            $select = $this->getConnection()->select()
+                ->from($this->getMainTable())
+                ->where('start_time <= ?', $date->format('Y-m-d H:i:s'))
+                ->order(['id ' . \Magento\Framework\DB\Select::SQL_DESC])
+                ->limit(1);
+            $this->versionCache[$timestamp] = $this->getConnection()->fetchOne($select);
+        }
+        return $this->versionCache[$timestamp];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function processAfterSaves(\Magento\Framework\Model\AbstractModel $object)
+    {
+        if ($object->getOldId() && $object->getOldId() != $object->getId()) {
+            if (!$object->getIsRollback()) {
+                $this->getConnection()->update(
+                    $this->getMainTable(),
+                    ['moved_to' => $object->getId()],
+                    ['id = ?' => $object->getOldId()]
+                );
+            } else {
+                foreach ($this->stagingList->getEntityTypes() as $entityType) {
+                    $metadata = $this->metadataPool->getMetadata($entityType);
+                    $connection = $this->resourceConnection->getConnectionByName($metadata->getEntityConnectionName());
+                    $connection->update(
+                        $metadata->getEntityTable(),
+                        ['updated_in' => $object->getId()],
+                        ['updated_in = ?' => $object->getOldId()]
+                    );
+                    $connection->update(
+                        $metadata->getEntityTable(),
+                        ['created_in' => $object->getId()],
+                        ['created_in = ?' => $object->getOldId()]
+                    );
+                }
+            }
+        }
+
+        parent::processAfterSaves($object);
+    }
+}
